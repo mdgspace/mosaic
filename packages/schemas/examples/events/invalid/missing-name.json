@@ -1,0 +1,6 @@
+{
+  "description": "Event rule missing required name property",
+  "event": {
+    "payload": { "type": "literal", "value": 1 }
+  }
+}

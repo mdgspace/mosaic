@@ -1,0 +1,11 @@
+{
+  "description": "State update with empty target path array",
+  "transition": {
+    "updates": [
+      {
+        "target": [],
+        "value": { "type": "literal", "value": 1 }
+      }
+    ]
+  }
+}

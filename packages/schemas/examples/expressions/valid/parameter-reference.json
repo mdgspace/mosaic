@@ -1,0 +1,13 @@
+{
+  "description": "Parameter reference expression by simple name",
+  "expressions": [
+    {
+      "type": "parameter",
+      "name": "multiplier"
+    },
+    {
+      "type": "parameter",
+      "name": "learningRate"
+    }
+  ]
+}

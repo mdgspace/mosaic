@@ -1,0 +1,307 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic.dev/schemas/simulation-spec-v0.1.schema.json",
+  "title": "Mosaic SimulationSpec v0.1",
+  "description": "The schema-first contract for a Mosaic interactive learning simulation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "objective",
+    "components",
+    "parameters",
+    "initialState",
+    "actions",
+    "events"
+  ],
+  "properties": {
+    "metadata": {
+      "$ref": "#/$defs/Metadata"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Component"
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Parameter"
+      }
+    },
+    "initialState": {
+      "type": "object",
+      "description": "Simulation-specific initial state. Its fields intentionally remain flexible."
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Action"
+      }
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Event"
+      }
+    }
+  },
+  "$defs": {
+    "Metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "title"],
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" }
+      }
+    },
+    "Component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "description": "An extensible Mosaic toolkit component type."
+        }
+      }
+    },
+    "Parameter": {
+      "description": "A named parameter whose value must match its declared type.",
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "type", "value"],
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "number" },
+            "value": { "type": "number" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "type", "value"],
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "boolean" },
+            "value": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "type", "value"],
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "string" },
+            "value": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "type", "value"],
+          "properties": {
+            "name": { "type": "string" },
+            "type": { "const": "array" },
+            "value": { "type": "array" }
+          }
+        }
+      ]
+    },
+    "Action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": ["step", "reset", "play", "pause", "set_parameter"]
+        },
+        "target": { "type": "string" },
+        "parameters": {
+          "type": "object",
+          "description": "Action-specific input, intentionally left flexible."
+        }
+      }
+    },
+    "Event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "An extensible simulation event type."
+        },
+        "description": { "type": "string" }
+      }
+    },
+    "Expression": {
+      "description": "A structured, deterministic expression tree.",
+      "oneOf": [
+        { "$ref": "#/$defs/StateExpression" },
+        { "$ref": "#/$defs/ParameterExpression" },
+        { "$ref": "#/$defs/LiteralExpression" },
+        { "$ref": "#/$defs/OperationExpression" }
+      ]
+    },
+    "StateExpression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "path"],
+      "properties": {
+        "type": { "const": "state" },
+        "path": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        }
+      }
+    },
+    "ParameterExpression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "name"],
+      "properties": {
+        "type": { "const": "parameter" },
+        "name": { "type": "string", "minLength": 1 }
+      }
+    },
+    "LiteralExpression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "value"],
+      "properties": {
+        "type": { "const": "literal" },
+        "value": {
+          "description": "A literal JSON value."
+        }
+      }
+    },
+    "OperationExpression": {
+      "description": "An operation on structured operands with enforced arity.",
+      "oneOf": [
+        { "$ref": "#/$defs/BinaryOperationExpression" },
+        { "$ref": "#/$defs/UnaryOperationExpression" }
+      ]
+    },
+    "BinaryOperationExpression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "operation", "operands"],
+      "properties": {
+        "type": { "const": "operation" },
+        "operation": {
+          "enum": [
+            "add",
+            "subtract",
+            "multiply",
+            "divide",
+            "equal",
+            "not_equal",
+            "greater_than",
+            "greater_than_or_equal",
+            "less_than",
+            "less_than_or_equal"
+          ]
+        },
+        "operands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Expression" },
+          "minItems": 2,
+          "maxItems": 2
+        }
+      }
+    },
+    "UnaryOperationExpression": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "operation", "operands"],
+      "properties": {
+        "type": { "const": "operation" },
+        "operation": {
+          "enum": ["abs"]
+        },
+        "operands": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Expression" },
+          "minItems": 1,
+          "maxItems": 1
+        }
+      }
+    },
+    "Condition": {
+      "description": "A boolean condition evaluated against simulation state and parameters.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expression"],
+      "properties": {
+        "expression": {
+          "$ref": "#/$defs/Expression"
+        }
+      }
+    },
+    "StateUpdate": {
+      "description": "A target state path and the Expression used to compute its new value.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "value"],
+      "properties": {
+        "target": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "value": {
+          "$ref": "#/$defs/Expression"
+        }
+      }
+    },
+    "Transition": {
+      "description": "An atomic state transition guarded by an optional condition.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["updates"],
+      "properties": {
+        "condition": {
+          "$ref": "#/$defs/Condition"
+        },
+        "updates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/StateUpdate"
+          }
+        }
+      }
+    },
+    "EventRule": {
+      "description": "An event rule with an optional condition and optional expression payload.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "$ref": "#/$defs/Condition"
+        },
+        "payload": {
+          "$ref": "#/$defs/Expression"
+        }
+      }
+    }
+  }
+}

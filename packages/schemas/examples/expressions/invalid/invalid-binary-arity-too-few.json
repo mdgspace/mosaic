@@ -1,0 +1,10 @@
+{
+  "description": "Binary operation with too few operands (1 instead of 2)",
+  "expression": {
+    "type": "operation",
+    "operation": "add",
+    "operands": [
+      { "type": "state", "path": ["position"] }
+    ]
+  }
+}

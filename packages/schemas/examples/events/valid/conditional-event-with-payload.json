@@ -1,0 +1,26 @@
+{
+  "description": "Conditional event rule with state expression payload",
+  "events": [
+    {
+      "name": "threshold_reached",
+      "condition": {
+        "expression": {
+          "type": "operation",
+          "operation": "greater_than_or_equal",
+          "operands": [
+            { "type": "state", "path": ["temperature"] },
+            { "type": "parameter", "name": "limit" }
+          ]
+        }
+      },
+      "payload": {
+        "type": "operation",
+        "operation": "subtract",
+        "operands": [
+          { "type": "state", "path": ["temperature"] },
+          { "type": "parameter", "name": "limit" }
+        ]
+      }
+    }
+  ]
+}

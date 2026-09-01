@@ -1,0 +1,11 @@
+{
+  "description": "Operation outside the controlled vocabulary",
+  "expression": {
+    "type": "operation",
+    "operation": "bitwise_xor",
+    "operands": [
+      { "type": "state", "path": ["mask"] },
+      { "type": "literal", "value": 1 }
+    ]
+  }
+}

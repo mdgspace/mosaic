@@ -1,0 +1,19 @@
+{
+  "description": "Condition whose expression fails Expression schema validation",
+  "condition": {
+    "expression": {
+      "type": "operation",
+      "operation": "greater_than_or_equal",
+      "operands": [
+        {
+          "type": "state",
+          "path": []
+        },
+        {
+          "type": "parameter",
+          "name": "limit"
+        }
+      ]
+    }
+  }
+}

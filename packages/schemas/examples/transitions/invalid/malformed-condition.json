@@ -1,0 +1,14 @@
+{
+  "description": "Transition with malformed condition",
+  "transition": {
+    "condition": {
+      "expression": "not_an_expression"
+    },
+    "updates": [
+      {
+        "target": ["position"],
+        "value": { "type": "literal", "value": 1 }
+      }
+    ]
+  }
+}

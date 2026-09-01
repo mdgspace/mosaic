@@ -1,0 +1,13 @@
+{
+  "description": "Event rule with malformed payload expression",
+  "event": {
+    "name": "invalid_payload_event",
+    "payload": {
+      "type": "operation",
+      "operation": "add",
+      "operands": [
+        { "type": "state", "path": [] }
+      ]
+    }
+  }
+}

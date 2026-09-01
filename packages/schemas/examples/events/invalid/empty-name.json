@@ -1,0 +1,6 @@
+{
+  "description": "Event rule with empty string name",
+  "event": {
+    "name": ""
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "description": "Nested expression conditions",
+  "conditions": [
+    {
+      "expression": {
+        "type": "operation",
+        "operation": "greater_than",
+        "operands": [
+          {
+            "type": "operation",
+            "operation": "abs",
+            "operands": [
+              {
+                "type": "state",
+                "path": ["velocity"]
+              }
+            ]
+          },
+          {
+            "type": "parameter",
+            "name": "maxSpeed"
+          }
+        ]
+      }
+    }
+  ]
+}

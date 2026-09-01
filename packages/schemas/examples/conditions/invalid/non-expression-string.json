@@ -1,0 +1,6 @@
+{
+  "description": "Condition with a non-expression string instead of an Expression object",
+  "condition": {
+    "expression": "state.t >= 10"
+  }
+}

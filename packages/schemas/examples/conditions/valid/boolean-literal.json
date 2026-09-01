@@ -1,0 +1,17 @@
+{
+  "description": "Boolean literal condition",
+  "conditions": [
+    {
+      "expression": {
+        "type": "literal",
+        "value": true
+      }
+    },
+    {
+      "expression": {
+        "type": "literal",
+        "value": false
+      }
+    }
+  ]
+}

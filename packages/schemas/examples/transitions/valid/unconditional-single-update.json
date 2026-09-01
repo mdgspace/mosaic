@@ -1,0 +1,20 @@
+{
+  "description": "Unconditional transition with a single update",
+  "transitions": [
+    {
+      "updates": [
+        {
+          "target": ["position"],
+          "value": {
+            "type": "operation",
+            "operation": "add",
+            "operands": [
+              { "type": "state", "path": ["position"] },
+              { "type": "literal", "value": 1 }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

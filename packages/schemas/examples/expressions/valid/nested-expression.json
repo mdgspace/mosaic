@@ -1,0 +1,53 @@
+{
+  "description": "Nested structured expression trees including state.position + state.velocity * parameter.multiplier",
+  "expressions": [
+    {
+      "type": "operation",
+      "operation": "add",
+      "operands": [
+        {
+          "type": "state",
+          "path": ["position"]
+        },
+        {
+          "type": "operation",
+          "operation": "multiply",
+          "operands": [
+            {
+              "type": "state",
+              "path": ["velocity"]
+            },
+            {
+              "type": "parameter",
+              "name": "multiplier"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "operation",
+      "operation": "greater_than",
+      "operands": [
+        {
+          "type": "operation",
+          "operation": "abs",
+          "operands": [
+            {
+              "type": "operation",
+              "operation": "subtract",
+              "operands": [
+                { "type": "state", "path": ["temperature"] },
+                { "type": "state", "path": ["targetTemperature"] }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "parameter",
+          "name": "tolerance"
+        }
+      ]
+    }
+  ]
+}

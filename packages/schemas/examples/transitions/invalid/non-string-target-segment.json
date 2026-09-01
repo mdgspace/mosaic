@@ -1,0 +1,11 @@
+{
+  "description": "State update with non-string segment in target array",
+  "transition": {
+    "updates": [
+      {
+        "target": ["player", 0],
+        "value": { "type": "literal", "value": 1 }
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "State update missing value property",
+  "transition": {
+    "updates": [
+      {
+        "target": ["position"]
+      }
+    ]
+  }
+}

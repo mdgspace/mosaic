@@ -1,0 +1,11 @@
+{
+  "description": "Transition missing required updates property",
+  "transition": {
+    "condition": {
+      "expression": {
+        "type": "literal",
+        "value": true
+      }
+    }
+  }
+}

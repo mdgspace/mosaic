@@ -1,0 +1,7 @@
+{
+  "description": "State reference with empty path array",
+  "expression": {
+    "type": "state",
+    "path": []
+  }
+}

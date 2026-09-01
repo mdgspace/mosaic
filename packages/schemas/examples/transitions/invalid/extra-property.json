@@ -1,0 +1,12 @@
+{
+  "description": "Transition with extraneous unauthorized property",
+  "transition": {
+    "updates": [
+      {
+        "target": ["position"],
+        "value": { "type": "literal", "value": 1 }
+      }
+    ],
+    "unauthorized": true
+  }
+}

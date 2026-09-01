@@ -1,0 +1,10 @@
+{
+  "description": "Condition with an unauthorized extra property",
+  "condition": {
+    "expression": {
+      "type": "literal",
+      "value": true
+    },
+    "extraProperty": "not-allowed"
+  }
+}

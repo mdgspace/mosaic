@@ -1,0 +1,26 @@
+{
+  "description": "Unary abs operation with exactly 1 operand",
+  "expressions": [
+    {
+      "type": "operation",
+      "operation": "abs",
+      "operands": [
+        { "type": "state", "path": ["position"] }
+      ]
+    },
+    {
+      "type": "operation",
+      "operation": "abs",
+      "operands": [
+        {
+          "type": "operation",
+          "operation": "subtract",
+          "operands": [
+            { "type": "state", "path": ["target"] },
+            { "type": "state", "path": ["current"] }
+          ]
+        }
+      ]
+    }
+  ]
+}

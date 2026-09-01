@@ -1,0 +1,37 @@
+{
+  "description": "Binary arithmetic operations with exactly 2 operands",
+  "expressions": [
+    {
+      "type": "operation",
+      "operation": "add",
+      "operands": [
+        { "type": "state", "path": ["position"] },
+        { "type": "state", "path": ["velocity"] }
+      ]
+    },
+    {
+      "type": "operation",
+      "operation": "subtract",
+      "operands": [
+        { "type": "state", "path": ["high"] },
+        { "type": "state", "path": ["low"] }
+      ]
+    },
+    {
+      "type": "operation",
+      "operation": "multiply",
+      "operands": [
+        { "type": "state", "path": ["velocity"] },
+        { "type": "parameter", "name": "multiplier" }
+      ]
+    },
+    {
+      "type": "operation",
+      "operation": "divide",
+      "operands": [
+        { "type": "state", "path": ["total"] },
+        { "type": "literal", "value": 2 }
+      ]
+    }
+  ]
+}

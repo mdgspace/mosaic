@@ -1,0 +1,6 @@
+{
+  "description": "Event rule with numeric non-string name",
+  "event": {
+    "name": 123
+  }
+}

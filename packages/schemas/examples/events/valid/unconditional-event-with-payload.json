@@ -1,0 +1,12 @@
+{
+  "description": "Unconditional event rule with literal/state payload",
+  "events": [
+    {
+      "name": "state_inspected",
+      "payload": {
+        "type": "state",
+        "path": ["position"]
+      }
+    }
+  ]
+}

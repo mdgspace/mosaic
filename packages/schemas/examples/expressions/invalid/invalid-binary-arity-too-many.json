@@ -1,0 +1,12 @@
+{
+  "description": "Binary operation with too many operands (3 instead of 2)",
+  "expression": {
+    "type": "operation",
+    "operation": "multiply",
+    "operands": [
+      { "type": "state", "path": ["a"] },
+      { "type": "state", "path": ["b"] },
+      { "type": "state", "path": ["c"] }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "description": "Unconditional event rule without payload",
+  "events": [
+    {
+      "name": "turn_completed"
+    }
+  ]
+}

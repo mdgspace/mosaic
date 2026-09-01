@@ -1,0 +1,13 @@
+{
+  "description": "State reference expression with simple or nested path",
+  "expressions": [
+    {
+      "type": "state",
+      "path": ["position"]
+    },
+    {
+      "type": "state",
+      "path": ["player", "physics", "velocity"]
+    }
+  ]
+}

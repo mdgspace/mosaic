@@ -1,0 +1,31 @@
+{
+  "description": "Multiple updates demonstrating intended snapshot semantics",
+  "transitions": [
+    {
+      "updates": [
+        {
+          "target": ["position"],
+          "value": {
+            "type": "operation",
+            "operation": "add",
+            "operands": [
+              { "type": "state", "path": ["position"] },
+              { "type": "state", "path": ["velocity"] }
+            ]
+          }
+        },
+        {
+          "target": ["velocity"],
+          "value": {
+            "type": "operation",
+            "operation": "add",
+            "operands": [
+              { "type": "state", "path": ["velocity"] },
+              { "type": "parameter", "name": "acceleration" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

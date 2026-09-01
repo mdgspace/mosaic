@@ -1,0 +1,37 @@
+{
+  "description": "Literal expressions covering diverse JSON value types",
+  "expressions": [
+    {
+      "type": "literal",
+      "value": 42
+    },
+    {
+      "type": "literal",
+      "value": 3.14159
+    },
+    {
+      "type": "literal",
+      "value": "ready"
+    },
+    {
+      "type": "literal",
+      "value": true
+    },
+    {
+      "type": "literal",
+      "value": false
+    },
+    {
+      "type": "literal",
+      "value": null
+    },
+    {
+      "type": "literal",
+      "value": [1, 2, 3]
+    },
+    {
+      "type": "literal",
+      "value": { "x": 10, "y": 20 }
+    }
+  ]
+}

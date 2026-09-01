@@ -1,0 +1,8 @@
+{
+  "description": "Unary abs operation with empty operands array (0 instead of 1)",
+  "expression": {
+    "type": "operation",
+    "operation": "abs",
+    "operands": []
+  }
+}

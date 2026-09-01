@@ -1,0 +1,7 @@
+{
+  "description": "State reference with non-string path element",
+  "expression": {
+    "type": "state",
+    "path": [123]
+  }
+}

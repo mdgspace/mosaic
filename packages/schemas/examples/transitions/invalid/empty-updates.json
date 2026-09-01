@@ -1,0 +1,6 @@
+{
+  "description": "Transition with empty updates array",
+  "transition": {
+    "updates": []
+  }
+}

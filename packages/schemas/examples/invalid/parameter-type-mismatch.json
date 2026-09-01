@@ -1,0 +1,9 @@
+{
+  "metadata": { "id": "invalid-parameter", "title": "Invalid Parameter" },
+  "objective": "This must fail because number values cannot be strings.",
+  "components": [],
+  "parameters": [{ "name": "learningRate", "type": "number", "value": "0.1" }],
+  "initialState": {},
+  "actions": [],
+  "events": []
+}

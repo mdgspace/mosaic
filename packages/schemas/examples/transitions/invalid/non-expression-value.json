@@ -1,0 +1,11 @@
+{
+  "description": "State update with raw string instead of an Expression object",
+  "transition": {
+    "updates": [
+      {
+        "target": ["position"],
+        "value": "position + 1"
+      }
+    ]
+  }
+}

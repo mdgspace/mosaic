@@ -1,0 +1,30 @@
+{
+  "metadata": {
+    "id": "binary-search",
+    "title": "Binary Search"
+  },
+  "objective": "Understand how binary search narrows a sorted range.",
+  "components": [
+    { "id": "array", "type": "array_visualization" },
+    { "id": "controls", "type": "simulation_controls" }
+  ],
+  "parameters": [
+    { "name": "target", "type": "number", "value": 42 },
+    { "name": "values", "type": "array", "value": [3, 8, 21, 42, 57, 89] },
+    { "name": "showComparisons", "type": "boolean", "value": true }
+  ],
+  "initialState": {
+    "low": 0,
+    "high": 5,
+    "status": "ready"
+  },
+  "actions": [
+    { "type": "step" },
+    { "type": "reset" },
+    { "type": "set_parameter", "target": "target", "parameters": { "value": 57 } }
+  ],
+  "events": [
+    { "type": "comparison", "description": "The midpoint is compared with the target." },
+    { "type": "target_found" }
+  ]
+}

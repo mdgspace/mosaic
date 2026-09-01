@@ -1,0 +1,8 @@
+{
+  "objective": "This must fail because metadata is required.",
+  "components": [],
+  "parameters": [],
+  "initialState": {},
+  "actions": [],
+  "events": []
+}

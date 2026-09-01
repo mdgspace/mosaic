@@ -1,0 +1,18 @@
+{
+  "description": "Conditional event rule without payload",
+  "events": [
+    {
+      "name": "target_found",
+      "condition": {
+        "expression": {
+          "type": "operation",
+          "operation": "equal",
+          "operands": [
+            { "type": "state", "path": ["low"] },
+            { "type": "state", "path": ["high"] }
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "description": "Event rule with prohibited extraneous property",
+  "event": {
+    "name": "extra_property_event",
+    "unknownField": true
+  }
+}

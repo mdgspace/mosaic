@@ -1,0 +1,37 @@
+{
+  "description": "Comparison conditions",
+  "conditions": [
+    {
+      "expression": {
+        "type": "operation",
+        "operation": "greater_than_or_equal",
+        "operands": [
+          {
+            "type": "state",
+            "path": ["t"]
+          },
+          {
+            "type": "parameter",
+            "name": "limit"
+          }
+        ]
+      }
+    },
+    {
+      "expression": {
+        "type": "operation",
+        "operation": "equal",
+        "operands": [
+          {
+            "type": "state",
+            "path": ["status"]
+          },
+          {
+            "type": "literal",
+            "value": "complete"
+          }
+        ]
+      }
+    }
+  ]
+}

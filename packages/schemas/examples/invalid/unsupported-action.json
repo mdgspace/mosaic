@@ -1,0 +1,9 @@
+{
+  "metadata": { "id": "invalid-action", "title": "Invalid Action" },
+  "objective": "This must fail because actions use a controlled vocabulary.",
+  "components": [],
+  "parameters": [],
+  "initialState": {},
+  "actions": [{ "type": "teleport" }],
+  "events": []
+}

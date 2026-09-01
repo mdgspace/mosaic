@@ -1,0 +1,9 @@
+{
+  "metadata": { "id": "invalid-state", "title": "Invalid State" },
+  "objective": "This must fail because initialState must be an object.",
+  "components": [],
+  "parameters": [],
+  "initialState": [],
+  "actions": [],
+  "events": []
+}

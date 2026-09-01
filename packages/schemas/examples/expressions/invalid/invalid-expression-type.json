@@ -1,0 +1,7 @@
+{
+  "description": "Invalid expression node type",
+  "expression": {
+    "type": "javascript",
+    "code": "state.x + 1"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "description": "State update missing target property",
+  "transition": {
+    "updates": [
+      {
+        "value": { "type": "literal", "value": 1 }
+      }
+    ]
+  }
+}

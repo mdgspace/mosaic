@@ -1,0 +1,9 @@
+{
+  "description": "Event rule with malformed condition",
+  "event": {
+    "name": "invalid_condition_event",
+    "condition": {
+      "expression": "not_an_expression"
+    }
+  }
+}

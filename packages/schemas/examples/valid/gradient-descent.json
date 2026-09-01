@@ -1,0 +1,32 @@
+{
+  "metadata": {
+    "id": "gradient-descent",
+    "title": "Gradient Descent"
+  },
+  "objective": "Explore how the learning rate affects progress toward a minimum.",
+  "components": [
+    { "id": "loss-curve", "type": "line_chart" },
+    { "id": "learning-rate", "type": "slider" }
+  ],
+  "parameters": [
+    { "name": "learningRate", "type": "number", "value": 0.1 },
+    { "name": "startingPoint", "type": "number", "value": 8 },
+    { "name": "label", "type": "string", "value": "Quadratic loss" }
+  ],
+  "initialState": {
+    "iteration": 0,
+    "position": 8,
+    "loss": 64,
+    "status": "ready"
+  },
+  "actions": [
+    { "type": "play" },
+    { "type": "pause" },
+    { "type": "step" },
+    { "type": "reset" }
+  ],
+  "events": [
+    { "type": "iteration_completed" },
+    { "type": "minimum_reached", "description": "The current position is close to the minimum." }
+  ]
+}

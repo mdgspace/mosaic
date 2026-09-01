@@ -1,0 +1,11 @@
+{
+  "description": "Unary abs operation with too many operands (2 instead of 1)",
+  "expression": {
+    "type": "operation",
+    "operation": "abs",
+    "operands": [
+      { "type": "state", "path": ["position"] },
+      { "type": "literal", "value": 1 }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "description": "Transition with an update value that fails Expression schema validation",
+  "transition": {
+    "updates": [
+      {
+        "target": ["position"],
+        "value": {
+          "type": "operation",
+          "operation": "add",
+          "operands": [
+            { "type": "state", "path": [] }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+@import "@astryxdesign/core/reset.css";
+@import "@astryxdesign/core/astryx.css";
+@import "@astryxdesign/theme-neutral/theme.css";
+@import "@xyflow/react/dist/style.css";
+
+.mosaic-chart { width: 100%; }
+.mosaic-graph { display: block; width: 100%; overflow: hidden; }
+.mosaic-flow-node { min-width: var(--size-element-lg); padding: var(--spacing-2) var(--spacing-3); color: var(--color-text-primary); background: var(--color-background-card); border: var(--border-width) solid var(--color-border-emphasized); border-radius: var(--radius-element); box-shadow: var(--shadow-low); text-align: center; }
+.mosaic-flow-node .react-flow__handle { width: var(--spacing-2); height: var(--spacing-2); background: var(--color-accent); border: 0; }
+.mosaic-node circle { fill: var(--color-background-card); stroke: var(--color-border-emphasized); stroke-width: var(--border-width); }
+.mosaic-node text, .mosaic-edge text { fill: var(--color-text-primary); font: var(--text-supporting-size) var(--font-family-body); }
+.mosaic-edge line { stroke: var(--color-border); stroke-width: 2; }
+.mosaic-timeline, .mosaic-flow { display: grid; gap: var(--spacing-4); margin: 0; padding: 0; list-style: none; }
+.mosaic-timeline li { display: flex; gap: var(--spacing-3); align-items: flex-start; }
+.mosaic-timeline-marker { width: var(--size-element-sm); height: var(--size-element-sm); flex: 0 0 auto; border-radius: var(--radius-full); background: var(--color-border); }
+.mosaic-timeline .is-active .mosaic-timeline-marker, .mosaic-flow .is-active { background: var(--color-background-blue); }
+.mosaic-timeline p { margin: var(--spacing-1) 0 0; color: var(--color-text-secondary); }
+.mosaic-diagram, .mosaic-explanation, .mosaic-question { display: grid; gap: var(--spacing-3); }
+.mosaic-diagram h2, .mosaic-explanation h2, .mosaic-question h2, .mosaic-state-inspector h2 { margin: 0; font-size: var(--text-heading-3-size); }
+.mosaic-particle { position: absolute; display: block; transform: translate(-50%, -50%); border-radius: var(--radius-full); }
+.mosaic-flow { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
+.mosaic-flow li { padding: var(--spacing-3); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-element); }
+.mosaic-heatmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(var(--size-element-lg), 1fr)); gap: var(--spacing-1); }
+.mosaic-heatmap span { min-height: var(--size-element-lg); border-radius: var(--radius-inner); background: var(--color-accent); }
+.mosaic-equation, .mosaic-formula { padding: var(--spacing-4); overflow-x: auto; color: var(--color-text-primary); font-family: var(--font-family-code); font-size: var(--font-size-lg); text-align: center; }
+.mosaic-event-log ul { display: grid; gap: var(--spacing-2); margin: 0; padding: 0; list-style: none; }
+.mosaic-event-log li { display: flex; gap: var(--spacing-2); align-items: baseline; padding: var(--spacing-2) var(--spacing-3); background: var(--color-background-muted); border-radius: var(--radius-inner); }
+.mosaic-event-log code { color: var(--color-text-secondary); }
+.mosaic-state-inspector pre, .mosaic-code-block { margin: 0; padding: var(--spacing-4); overflow: auto; background: var(--color-background-muted); border-radius: var(--radius-element); font-family: var(--font-family-code); }
+.mosaic-hint { display: grid; gap: var(--spacing-2); padding: var(--spacing-4); border-inline-start: 3px solid var(--color-accent); background: var(--color-background-muted); }
+.mosaic-quiz { display: grid; gap: var(--spacing-3); margin: 0; padding: var(--spacing-4); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-element); }
+.mosaic-quiz label { display: flex; gap: var(--spacing-2); align-items: center; }

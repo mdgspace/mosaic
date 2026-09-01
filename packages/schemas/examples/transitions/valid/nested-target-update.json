@@ -1,0 +1,20 @@
+{
+  "description": "Transition with nested state target paths",
+  "transitions": [
+    {
+      "updates": [
+        {
+          "target": ["player", "physics", "velocity"],
+          "value": {
+            "type": "operation",
+            "operation": "multiply",
+            "operands": [
+              { "type": "state", "path": ["player", "physics", "velocity"] },
+              { "type": "parameter", "name": "damping" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
