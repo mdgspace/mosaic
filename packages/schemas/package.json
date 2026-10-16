@@ -5,11 +5,12 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./simulation-spec-v0.1.schema.json": "./simulation-spec-v0.1.schema.json"
+    "./simulation-spec-v0.1.schema.json": "./simulation-spec-v0.1.schema.json",
+    "./lesson-plan-v0.1.schema.json": "./lesson-plan-v0.1.schema.json"
   },
   "scripts": {
     "check": "tsc --noEmit",
-    "test": "node test/simulation-spec.test.mjs && node test/expression-spec.test.mjs && node test/condition-spec.test.mjs && node test/transition-spec.test.mjs && node test/event-spec.test.mjs"
+    "test": "node test/simulation-spec.test.mjs && node test/expression-spec.test.mjs && node test/condition-spec.test.mjs && node test/transition-spec.test.mjs && node test/event-spec.test.mjs && node test/lesson-plan.test.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1"

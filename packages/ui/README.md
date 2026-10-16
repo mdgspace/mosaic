@@ -89,7 +89,7 @@ function SimulationApp() {
 | `Card` | A discrete content or control surface |
 | `Tooltip` | Short contextual help |
 | `Chart` | Numeric data over time, using Recharts children |
-| `ChartLine` | A ready-to-use semantic line chart |
+| `ChartLine` | A ready-to-use semantic line chart for data series and plotted functions |
 | `Graph` | Nodes and relationships |
 | `Node` / `Edge` | Lightweight diagram primitives |
 | `Timeline` | Ordered temporal or process stages |
@@ -113,6 +113,8 @@ function SimulationApp() {
 | `Question` | A learner-facing question |
 
 Prefer semantic Mosaic components over manually recreating equivalent controls. Use Astryx-backed controls for standard UI, `Chart` for Recharts-backed chart content, and Mosaic-owned visual primitives for diagrams and domain-specific visuals. Do not import `framer-motion` or `@xyflow/react` directly for normal simulation interfaces. Add a new component only when the existing toolkit cannot express the interface.
+
+For standard line charts, use `ChartLine` and pass data, axis keys/domains, labels, and an optional `referencePoint` for the active simulation value. Keep graph rendering in the toolkit rather than hand-authoring SVG paths in individual lessons.
 
 D3 is intentionally not a dependency of the toolkit. Use it only for a concrete low-level scale or layout calculation that a future Mosaic-owned component needs; normal agent-built interfaces should use the semantic Mosaic APIs instead of raw D3.
 
