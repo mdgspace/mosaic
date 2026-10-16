@@ -11,6 +11,7 @@ The **Mosaic Agent Evaluation Framework** provides a standardized benchmark suit
   1. **Automated Static Checks**: Validates architectural compliance, `@mosaic/simulation` and `@mosaic/ui` usage, and checks for raw library leakage using `evaluate-lesson.mjs`.
   2. **Standardized Rubric Scoring**: A 100-point rubric evaluating simulation correctness, educational accuracy, visual hierarchy, and code quality.
 * **Local-First & Tool-Agnostic**: Independent of any specific LLM harness or cloud service.
+* **Source-grounded plans**: When source material is supplied, require a validated plan tracing objectives, stages, and assessment to source sections before implementation. See `.mosaic/skills/lesson-generation/SKILL.md`.
 
 ---
 
@@ -38,9 +39,9 @@ Follow this repeatable process when benchmarking an agent:
 ```text
 1. Select Benchmark Prompt (evaluation/prompts/*.md)
        ↓
-2. Provide Prompt to AI Coding Agent (with AGENT_GUIDE.md & .mosaic/skills/)
+2. Provide Prompt and education sources to AI Coding Agent (with AGENT_GUIDE.md & .mosaic/skills/)
        ↓
-3. Let Agent Generate the Lesson in apps/web/src/main.tsx
+3. Have the agent write and validate lesson-plan.json, then generate the lesson
        ↓
 4. Verify TypeScript Compilation & Builds (npm run check && npm run build)
        ↓
@@ -48,7 +49,7 @@ Follow this repeatable process when benchmarking an agent:
        ↓
 6. Run & Interact Locally in Browser (npm run dev:web)
        ↓
-7. Score Against 100-Point Rubric (evaluation/rubric.md)
+7. Score Against 100-Point Rubric (evaluation/rubric.md) with a first-time learner walkthrough
        ↓
 8. Record Score & Compare Across Agents/Prompts
 ```
@@ -78,6 +79,9 @@ npm run build
 
 # 2. Run the automated static lesson evaluator
 node evaluation/scripts/evaluate-lesson.mjs apps/web/src/main.tsx
+
+# 3. Test the evaluator's structural reporting
+node --test evaluation/scripts/evaluate-lesson.test.mjs
 ```
 
 ### Step 4: Run Locally in Browser
@@ -89,12 +93,14 @@ npm run dev:web
 Open `http://localhost:5173` to test playback, stepping, parameter tuning, prediction challenges, and quizzes.
 
 ### Step 5: Score with Rubric
-Open `evaluation/rubric.md` and assess the implementation against the 5 categories (100 points total):
-* **A. Simulation Correctness (25 pts)**: Source of truth, state separation, declarative transitions vs `onStep` escape hatch.
-* **B. Mosaic Toolkit & API Usage (20 pts)**: Semantic components, playback controls, no raw library leaks.
-* **C. Educational Design (20 pts)**: Pedagogical arc, active prediction challenge, accurate mathematical explanations, quiz feedback.
-* **D. Visual & Interaction Quality (15 pts)**: Visual hierarchy, clear pointer/eliminated indicators, purposeful animation.
-* **E. Technical Quality (20 pts)**: Zero type errors, clean builds, zero cloud/backend dependencies.
+Open `evaluation/rubric.md` and assess the implementation against five categories (100 points total):
+* **A. Simulation Correctness (20 pts)**: Engine source of truth, state separation, declarative transitions and appropriate `onStep` use.
+* **B. Mosaic Toolkit & API Use (15 pts)**: Appropriate semantic components and controls, no unnecessary raw library leaks.
+* **C. Learner Experience (30 pts)**: Beginner prerequisites, relatable opening, progressive narrative, prediction feedback, clear next action, aligned quiz, and conclusion.
+* **D. Visual & Interaction Quality (15 pts)**: One clear visual focus, explained state changes, accessible cues, pace, and responsive layout.
+* **E. Technical Quality (20 pts)**: Type safety, tests/builds, local-first operation, and maintainability.
+
+The rubric weights changed from the earlier version to give learner experience 30 points. The evaluator reports structural presence only; a human reviewer decides whether the lesson teaches well. Review the lesson from the perspective of someone who has never encountered the subject.
 
 ---
 

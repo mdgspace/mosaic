@@ -31,6 +31,7 @@ const results = {
   architecture: [],
   toolkit: [],
   education: [],
+  learnerExperience: [],
   warnings: [],
   criticalErrors: [],
 };
@@ -77,7 +78,7 @@ if (usesEventRules) {
 }
 
 if (usesOnStep) {
-  results.warnings.push("⚠ onStep callback detected: verify whether logic could be expressed declaratively");
+  results.warnings.push("⚠ onStep callback detected: review that it remains a suitable escape hatch for this simulation logic");
 }
 
 // 2. Third-Party Raw Leakage Checks (Default vs Fallback audit)
@@ -127,7 +128,7 @@ if (foundVisuals.length > 0) {
 }
 
 // 5. Educational Components Checks
-const eduComponents = ["Explanation", "Formula", "CodeBlock", "Question", "Hint", "Quiz"];
+const eduComponents = ["Explanation", "Formula", "CodeBlock", "Question", "Hint", "Quiz", "PredictionCheck", "LessonOutcome"];
 const foundEdu = eduComponents.filter((c) => new RegExp(`\\b${c}\\b`).test(sourceCode));
 
 for (const comp of eduComponents) {
@@ -137,6 +138,18 @@ for (const comp of eduComponents) {
     results.education.push(`- <${comp}> not present`);
   }
 }
+
+// Structural learner-experience signals only. Presence checks cannot judge
+// whether content is understandable, well timed, or pedagogically effective.
+const explanationCount = (sourceCode.match(/<Explanation\b/g) || []).length;
+const questionCount = (sourceCode.match(/<(?:Question|PredictionCheck)\b/g) || []).length;
+const hintCount = (sourceCode.match(/<Hint\b/g) || []).length;
+const quizCount = (sourceCode.match(/<Quiz\b/g) || []).length;
+const hasOptionalDisclosure = /<details\b/.test(sourceCode);
+const hasLiveFeedbackRegion = /aria-live\s*=/.test(sourceCode);
+results.learnerExperience.push(`Explanations: ${explanationCount}; prediction/question components: ${questionCount}; hints: ${hintCount}; quizzes: ${quizCount}`);
+results.learnerExperience.push(`${hasOptionalDisclosure ? "✓" : "-"} Optional disclosure section detected`);
+results.learnerExperience.push(`${hasLiveFeedbackRegion ? "✓" : "-"} Live feedback region detected`);
 
 // Print Results
 console.log("Architecture");
@@ -154,6 +167,10 @@ console.log("\nEducational Scaffolding");
 console.log("-----------------------");
 results.education.forEach((msg) => console.log(msg));
 
+console.log("\nLearner Experience (Structural Signals Only)");
+console.log("---------------------------------------------");
+results.learnerExperience.forEach((msg) => console.log(msg));
+
 if (results.warnings.length > 0) {
   console.log("\nNotices & Potential Anti-Patterns");
   console.log("---------------------------------");
@@ -165,8 +182,10 @@ console.log("---------------------------------------------------");
 console.log("[ ] A. Simulation Correctness: State separation, declarative transitions vs onStep");
 console.log("[ ] B. Toolkit Usage: Semantic Mosaic components used effectively");
 console.log("[ ] C. Educational Correctness: Mathematical explanation accurately reflects visuals");
-console.log("[ ] D. Visual & Interaction: Clear pointers, active/eliminated state distinction");
+console.log("[ ] C. Learner Experience: Beginner opening, progressive disclosure, useful predictions and feedback, aligned quiz");
+console.log("[ ] D. Visual & Interaction: Clear visual focus, meaningful state distinction, clear next action, responsive access");
 console.log("[ ] E. Technical Quality: Zero console errors, clean local execution");
+console.log("Note: structural signals do not score teaching quality; review categories C and D manually.");
 
 console.log("\n==================================================");
 if (results.criticalErrors.length > 0) {

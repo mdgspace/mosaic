@@ -1,144 +1,71 @@
 # Mosaic Agent Evaluation Rubric
 
-This 100-point rubric provides a standardized evaluation standard for assessing AI-generated Mosaic interactive educational lessons.
+Use this 100-point rubric to assess generated Mosaic lessons. The rubric evaluates both the simulation and the experience of learning through it. The CLI evaluator reports objective structural signals only; it does not assign a teaching-quality score. Complete the learner-experience categories by reviewing the lesson as a first-time learner.
 
----
+## Summary scorecard
 
-## Summary Scorecard
+| Category | Points |
+| --- | ---: |
+| **A. Simulation correctness and engine compliance** | **20** |
+| **B. Mosaic toolkit and API use** | **15** |
+| **C. Learner experience and instructional design** | **30** |
+| **D. Visual clarity and interaction** | **15** |
+| **E. Technical quality and code hygiene** | **20** |
+| **Total** | **100** |
 
-| Category | Description | Points |
-| :--- | :--- | :---: |
-| **A. Simulation Correctness & Engine Compliance** | Source of truth, state separation, declarative transitions vs `onStep` escape hatch, atomicity, determinism | **25** |
-| **B. Mosaic Toolkit & API Usage** | Proper use of `@mosaic/ui`, component selection, avoidance of raw library leakage | **20** |
-| **C. Educational Design & Correctness** | Pedagogical arc, conceptual progression, accuracy of mathematical explanations, active prediction, knowledge checks | **20** |
-| **D. Visual & Interaction Quality** | Purposeful visualization, responsive layout, meaningful animation, telemetry feedback, clear pointers | **15** |
-| **E. Technical Quality & Code Hygiene** | TypeScript cleanliness, local-first compliance, zero external dependencies, no console errors, clean builds | **20** |
-| **Total** | | **100** |
+The weights changed from the previous rubric (A 25, B 20, C 20, D 15, E 20). Simulation and toolkit compliance remain important, while 10 points move to learner experience because API usage alone does not show that a beginner can understand a lesson.
 
----
+## A. Simulation correctness and engine compliance (20)
 
-## Category Details & Grading Criteria
+- **Engine is the source of truth (5):** dynamic simulation state evolves through `SimulationEngine` and is read through the controller. React state holds only presentation state and does not duplicate simulation history unnecessarily.
+- **State separation (4):** dynamic state, configured parameters, immutable lesson data, and React-only presentation state are distinguishable.
+- **Transitions and `onStep` discipline (5):** use declarative transitions when they reasonably express the operation; retain `onStep` for computations that do not fit well in the declarative API. Do not force a risky rewrite merely to remove a callback.
+- **Determinism and reset behavior (3):** repeated runs and resets produce predictable results, including parameter behavior.
+- **Events (3):** meaningful milestones use event rules where appropriate and reflect the resulting engine state.
 
----
+## B. Mosaic toolkit and API use (15)
 
-### A. Simulation Correctness & Engine Compliance (25 Points)
+- **Semantic components (6):** choose Mosaic controls, educational components, and visual components that fit the learning task; do not use components just to increase their count.
+- **Abstraction boundary (4):** keep low-level visualization or animation libraries behind Mosaic abstractions except where a real capability gap requires a fallback.
+- **Control fit (3):** expose actions and parameters that support the current learner task. Playback controls, speed, and tuning controls need not all be prominent in every lesson.
+- **Educational components (2):** use Mosaic educational components where they add meaning and sequence them when they become relevant.
 
-Evaluates whether the lesson treats `@mosaic/simulation` as the authoritative, deterministic foundation for state evolution.
+## C. Learner experience and instructional design (30)
 
-#### Criteria & Point Breakdown:
-1. **Single Source of Truth (6 pts)**: State is owned by `SimulationEngine` and accessed via `useSimulationController`. Simulation state is not duplicated in React component state.
-2. **Clean Tripartite State Separation (5 pts)**:
-   * Dynamic variables are kept in `SimulationState`.
-   * User-adjustable settings are registered in `spec.parameters`.
-   * Static constants/datasets are kept as immutable constants outside state.
-3. **Declarative Transitions vs. Escape Hatch Discipline (7 pts)**:
-   * Uses declarative `spec.transitions` (with arithmetic and comparison operations) when behavior can be represented in AST form.
-   * Uses `SimulationEngineOptions.onStep` **strictly as an escape hatch** for non-linear mathematics, trigonometry, or unsupported data-structure operations.
-   * *Penalty*: Deduct up to 5 points if ordinary arithmetic or state assignments are moved into `onStep` simply for developer convenience.
-4. **Deterministic & Atomic Execution (4 pts)**:
-   * Stepping, resetting, and parameter updates produce predictable, repeatable outcomes.
-   * Step execution is atomic; failed evaluations or errors never commit partial mutations.
-5. **Event Rule Integration (3 pts)**:
-   * Declarative `eventRules` emit milestone events (`found`, `threshold_reached`, etc.) into `StepResult.events`.
+- **Beginner comprehension and prerequisites (6):** assume no prior knowledge unless stated. Define prerequisites plainly before relying on them; use familiar examples where useful.
+- **Opening and intuition (4):** begin with a relatable problem, question, or concrete scenario. Build intuition before leading with terminology, formulas, code, or controls.
+- **Narrative continuity and progression (5):** reveal one main idea at a time. Transitions explain what changed, why it changed, and how it follows from the previous stage.
+- **Prediction and feedback (5):** ask a focused prediction before a meaningful outcome; give immediate, kind, concept-specific feedback for correct and incorrect responses.
+- **Next action and learner agency (3):** at every point, the next action is clear, appropriately paced, and not obscured by competing controls.
+- **Quiz alignment (4):** the final knowledge check tests the stated learning objective through reasoning or transfer, provides useful feedback, and offers a way to revisit related teaching.
+- **Conclusion (3):** end by naming the takeaway and connecting it to the demonstrated experience.
 
-#### Grading Thresholds:
-* **Full Credit (22–25 pts)**: Engine is fully compliant, clean state separation, declarative transitions used where possible, `onStep` used only where strictly necessary, atomic reset and step.
-* **Partial Credit (12–21 pts)**: Engine is used but ordinary state logic is unnecessarily placed inside `onStep`, or minor state duplication exists in React state.
-* **Failure (0–11 pts)**: Engine bypassed entirely; state maintained solely in React hooks; non-deterministic execution; simulation state mutates asynchronously outside the controller.
+## D. Visual clarity and interaction (15)
 
----
+- **Visual focus and cognitive load (5):** one dominant visual supports one main teaching objective; optional or advanced material does not compete with the initial experience.
+- **Meaningful state and causal explanation (5):** target, active range, changed elements, and outcomes are legible. Explanations connect visual changes to their cause. Color is supported by labels, shapes, or other cues.
+- **Pacing, responsiveness, and accessibility (5):** important explanations do not autoplay away; interaction works on narrow screens and includes usable labels and reduced-motion handling where relevant.
 
-### B. Mosaic Toolkit & API Usage (20 Points)
+## E. Technical quality and code hygiene (20)
 
-Evaluates adherence to Mosaic's semantic component abstraction and avoidance of raw third-party library leakage.
+- **Local-first and client-side operation (5):** the lesson runs without a backend, external runtime, or API key.
+- **Type safety (5):** documented TypeScript checks pass without unsafe suppression.
+- **Build and tests (5):** documented builds and applicable tests pass.
+- **Maintainability (5):** no unrelated complexity, stale code, console noise, or undocumented dependency changes.
 
-#### Criteria & Point Breakdown:
-1. **Semantic Component Selection (8 pts)**:
-   * Selects appropriate `@mosaic/ui` components based on data shape (e.g. `ChartLine`, `Graph`, `Particle`, `Timeline`, `Flow`, `Heatmap`, `Equation`, `Diagram`).
-2. **Simulation Controls Integration (5 pts)**:
-   * Uses standardized controls (`Play`, `Pause`, `Step`, `Reset`, `SpeedControl`, `ParameterControl`) wired directly to controller methods.
-3. **Educational Component Composition (4 pts)**:
-   * Composes `Explanation`, `Formula`, `CodeBlock`, `Question`, `Hint`, and `Quiz` to frame the experience.
-4. **Abstraction Boundary Adherence (3 pts)**:
-   * Does NOT import `recharts`, `@xyflow/react`, `framer-motion`, or `d3` directly into normal lesson views unless a specialized fallback is genuinely required.
+## Mathematical and simulation correctness
 
-#### Grading Thresholds:
-* **Full Credit (18–20 pts)**: Flawless use of Mosaic semantic primitives for UI, visualization, animation, and education with no unneeded raw library imports.
-* **Partial Credit (10–17 pts)**: Uses Mosaic components for most elements but imports lower-level libraries (e.g. raw Recharts or Framer Motion) where Mosaic primitives already exist.
-* **Failure (0–9 pts)**: Ignores `@mosaic/ui` and implements custom ad-hoc controls, charts, and buttons with raw HTML/CSS.
+Check accuracy across categories A, C, and D. Ensure the visual quantity being shown is labeled correctly and does not get conflated with a complexity or rate claim. For Binary Search, for example, the candidate count falls by about half per comparison, while the number of comparisons grows logarithmically with the starting list size. Assess whether the simulation, explanation, labels, and quiz agree.
 
----
+## Score interpretation
 
-### C. Educational Design & Correctness (20 Points)
+| Score | Rating | Guidance |
+| ---: | --- | --- |
+| 90–100 | Exemplary | Suitable as a reference lesson |
+| 80–89 | Proficient | Minor refinement may help |
+| 65–79 | Developing | Rework the weakest instructional or technical areas |
+| Below 65 | Unsatisfactory | Revisit the lesson objective and implementation |
 
-Evaluates the pedagogical effectiveness, instructional scaffolding, and factual accuracy of the lesson.
+## Automated versus human review
 
-#### Criteria & Point Breakdown:
-1. **Pedagogical Arc & Scaffolding (5 pts)**:
-   * Follows a structured sequence: Concept Intro $\rightarrow$ Governing Rule $\rightarrow$ Interactive Experiment $\rightarrow$ Active Reasoning $\rightarrow$ Assessment.
-2. **Active Inquiry / Prediction Challenge (5 pts)**:
-   * Gives the learner an opportunity to predict the next step, branch, or parameter outcome before executing it.
-3. **Factual & Mathematical Accuracy (5 pts)**:
-   * Mathematical explanations and complexity claims accurately reflect what the simulation actually demonstrates.
-   * *Critical Check*: Visual labels must be accurate. For example, a chart showing remaining search candidates should not be labeled "O(log n)" if the plotted curve represents exponential reduction $N/2^k$ over linear steps $k$; the distinction between algorithm complexity and plotted telemetry must be mathematically precise.
-4. **Knowledge Check & Feedback (5 pts)**:
-   * Includes a `Quiz` that tests core conceptual understanding (not trivial trivia) with constructive, explanatory feedback for right and wrong answers.
-
-#### Grading Thresholds:
-* **Full Credit (18–20 pts)**: Excellent pedagogical arc, engaging prediction prompt, mathematically rigorous explanation matching the visuals, effective quiz.
-* **Partial Credit (10–17 pts)**: Good interaction but missing prediction step, or explanations are slightly inaccurate/vague regarding complexity derivation.
-* **Failure (0–9 pts)**: Purely explanatory text with disconnected controls, misleading or incorrect mathematical explanations, no active learning checks.
-
----
-
-### D. Visual & Interaction Quality (15 Points)
-
-Evaluates the visual hierarchy, layout responsiveness, animation purposefulness, and clarity of state indicators.
-
-#### Criteria & Point Breakdown:
-1. **Visual Clarity & Telemetry (5 pts)**:
-   * Key entities, pointers (e.g. `low`/`mid`/`high`, current coordinates, active node), and status badges are immediately legible.
-   * Eliminated vs. active states are clearly differentiated.
-2. **Purposeful Animation (5 pts)**:
-   * Motion connects cause and effect (e.g. smooth coordinate glide via `Particle`, presence reveals via `Animated`, edge pulses).
-   * No distracting or unprompted decorative animations.
-3. **Responsive Layout & Visual Hierarchy (5 pts)**:
-   * Clean card layout, structured spacing, readable typography, and usable on different viewport sizes.
-
-#### Grading Thresholds:
-* **Full Credit (13–15 pts)**: Visually polished, crystal-clear pointers and state markers, purposeful smooth animations, well-proportioned layout.
-* **Partial Credit (8–12 pts)**: Functional visualization but slightly cramped layout, lack of distinct visual markers, or animation that is too fast/slow.
-* **Failure (0–7 pts)**: Broken layout, visual overlaps, missing pointer indicators, or excessive chaotic motion.
-
----
-
-### E. Technical Quality & Code Hygiene (20 Points)
-
-Evaluates code structure, type safety, local-first integrity, and adherence to repository build standards.
-
-#### Criteria & Point Breakdown:
-1. **Local-First & Client-Side Integrity (5 pts)**:
-   * Completely self-contained; requires no backend server, API keys, or cloud LLM runtime to run in the browser.
-2. **TypeScript Type Safety (5 pts)**:
-   * Compiles cleanly with `tsc --noEmit` across workspaces with zero type errors and no unsafe `any` casting.
-3. **Build & Test Compatibility (5 pts)**:
-   * Passes `npm test --workspaces --if-present` and `npm run build` without failures.
-4. **Code Cleanliness & Maintainability (5 pts)**:
-   * Modular structure, clear comments where helpful, no unused dead code or lingering debug logs.
-
-#### Grading Thresholds:
-* **Full Credit (18–20 pts)**: Zero type errors, clean builds, zero backend dependencies, modular and maintainable TypeScript.
-* **Partial Credit (10–17 pts)**: Runs locally but requires minor type suppression, or has minor code duplication.
-* **Failure (0–9 pts)**: Fails TypeScript type checking, breaks the build, or attempts to introduce external cloud/backend dependencies.
-
----
-
-## Overall Evaluation Scoring Scale
-
-| Total Score | Rating | Verdict | Action Required |
-| :---: | :---: | :---: | :--- |
-| **90 – 100** | **Exemplary** | Ready for production inclusion | None; serve as gold standard example. |
-| **80 – 89** | **Proficient** | Acceptable quality | Minor polish on visualization or declarative transitions. |
-| **65 – 79** | **Developing** | Needs refinement | Revise state separation, reduce `onStep` overuse, or improve scaffolding. |
-| **< 65** | **Unsatisfactory** | Rejected | Re-prompt agent with focus on AGENT_GUIDE.md and relevant skills. |
-
+Run `node evaluation/scripts/evaluate-lesson.mjs [path]` for structural checks such as engine imports, controls, semantic component names, educational component presence, and optional disclosure markers. These checks can detect presence or absence; they cannot determine whether an opening is relatable, an explanation is understandable, a prediction is well timed, a visual is calm, or feedback teaches. Do not report the CLI output as a learner-experience score. Use a human walkthrough against categories C and D.

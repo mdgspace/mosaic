@@ -6,6 +6,8 @@ This skill guides AI agents in planning, structuring, and scoping interactive ed
 
 ## 1. Defining the Learning Objective
 
+When the request includes course notes or other education sources, use the [lesson-generation skill](../lesson-generation/SKILL.md) first. Record source sections for objectives, explanations, and assessment in a validated lesson plan before implementing the lesson. Do not treat an existing lesson as the default template for another topic.
+
 Before writing code or defining specs, articulate the **single core mental model** the learner should build.
 
 ### Bad vs Good Objectives
@@ -21,26 +23,28 @@ Before writing code or defining specs, articulate the **single core mental model
 
 ## 2. The Mosaic Pedagogical Arc
 
-Every Mosaic lesson should guide the learner through a 5-stage conceptual progression:
+Every Mosaic lesson should guide the learner through a progression suited to its subject. Use this as a set of possible moves, not a mandatory five-stage template:
 
 ```text
-1. Concept Intro        (<Explanation>, <Diagram>)
-   └── Establish context and real-world relevance.
+1. Concrete Opening     (<Explanation>, an appropriate example)
+   └── Establish a relatable problem and explain any needed prerequisite.
        ↓
-2. Governing Rule       (<Formula>, <CodeBlock>, <Equation>)
-   └── State the mathematical law or algorithm concisely.
+2. Intuition            (short explanation and a useful visual)
+   └── Build an initial mental model before introducing formal terms.
        ↓
-3. Interactive Stage    (<Play>, <Pause>, <Step>, <Reset>, <ParameterControl>, <Visualization>)
-   └── The learner manipulates parameters, steps through time, and observes outcomes.
+3. Guided Experience    (one primary visual and one next action)
+   └── Reveal meaningful changes at the learner's pace and explain their cause.
        ↓
-4. Reasoning Inquiry    (<Question>, <Hint>)
-   └── Prompt the learner to predict or explain the pattern they just observed.
+4. Prediction & Feedback (<Question>, <Hint>)
+   └── Prompt before an important outcome and give constructive feedback.
        ↓
-5. Knowledge Check      (<Quiz>)
-   └── Evaluate whether the core mental model was internalized.
+5. Conclusion            (<Explanation>, <Formula> or <CodeBlock> if timely, <Quiz>)
+   └── Name the idea, connect details, and check understanding.
 ```
 
 > **Note**: Not every lesson requires all components. Choose components that directly support the learning goal without cluttering the screen.
+
+Assume zero prior knowledge unless specified. Introduce one idea at a time and make each stage answer: What am I looking at? What just happened? Why did it happen? Was my prediction correct? What should I do next? Keep debugging and implementation detail optional. For an incorrect prediction or a failed parameter experiment, show the observed result, explain its cause, and offer a concrete retry or recovery action. These principles apply across subjects, but do not force one subject's story, sequence, or visualization onto another.
 
 ---
 
@@ -75,6 +79,8 @@ To ensure clean architecture and avoid bad design habits, strictly distinguish a
 ---
 
 ## 5. Walkthrough: From User Prompt to Lesson Plan
+
+Use the following topic-specific example only to illustrate planning decisions. It is not a template for other subjects; choose a different narrative and visual representation when the topic calls for it.
 
 ### User Request
 > *"Create an interactive lesson explaining how binary search narrows a sorted array."*

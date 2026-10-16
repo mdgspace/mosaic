@@ -16,6 +16,14 @@ Key tenets:
 * **Declarative Simulation Engine**: State evolution, deterministic transitions, mathematical expressions, conditions, and event rules are owned by `@mosaic/simulation` and validated by `@mosaic/schemas`.
 * **Semantic Toolkit**: Presentation, controls, visualizations, animations, and pedagogical scaffolding are provided by `@mosaic/ui`.
 
+### Learner experience contract
+
+Treat each lesson as a guided explanation for a learner who may be entirely new to the subject. Unless the prompt names prerequisites, assume zero prior knowledge. Begin with a relatable question, problem, or concrete scenario; build intuition before naming formal terms or showing equations. Introduce one new idea at a time and make each transition explain what just changed, why it changed, and what the learner should do next.
+
+Keep one primary visual focus and one clear next action at each moment. Explain visual states and causal changes in nearby plain language; never rely on color alone. Ask learners to predict meaningful outcomes before revealing them, then give immediate, constructive feedback. Introduce formulas, code, controls, and advanced details only when they answer a question the learner has encountered. Put state inspection, event logs, and implementation detail in optional areas unless they directly support the current learning objective. End with a meaningful conclusion and a knowledge check aligned with the idea taught.
+
+Use these as domain-independent principles, not a required lesson template. A networking lesson, a physics lesson, and an algorithm lesson need different stories and visuals. Prefer conceptual clarity over component count. Animation should make a meaningful change easier to follow. Keep narrative, visual labels, simulation behavior, explanations, and quiz feedback consistent with one another.
+
 ---
 
 ## 2. Core Architecture
@@ -41,7 +49,7 @@ Local Browser / Localhost (Vite Dev Server)
 | Layer | Package / Location | Responsibility |
 | --- | --- | --- |
 | **Agent Layer** | `AGENT_GUIDE.md`, `.mosaic/skills/` | Teaches the AI agent how to design lessons, formulate simulation specs, pick semantic UI components, and verify code. |
-| **Schema Layer** | `@mosaic/schemas` (`packages/schemas`) | Source of truth JSON schemas for simulation specifications, expressions, conditions, transitions, and event rules. |
+| **Schema Layer** | `@mosaic/schemas` (`packages/schemas`) | Source of truth JSON schemas for simulation specifications and source-grounded lesson plans, plus structural validation. |
 | **Simulation Engine** | `@mosaic/simulation` (`packages/simulation`) | Framework-independent state manager. Evaluates expressions, executes sequential transitions, evaluates event rules, guarantees atomic step commits, and handles reset/parameter updates. |
 | **Mosaic Toolkit** | `@mosaic/ui` (`packages/ui`) | React components for UI controls, data visualizations (ChartLine, Graph, Particle, Timeline, Heatmap, Diagram), motion primitives (Particle, Animated), simulation controls (Play, Pause, Step, Reset, ParameterControl), and educational containers (Explanation, Formula, CodeBlock, Question, Hint, Quiz). |
 | **Lesson Application** | `apps/web` (`apps/web/src/main.tsx`) | Host React application running under Vite where interactive lessons are composed and rendered. |
@@ -50,20 +58,22 @@ Local Browser / Localhost (Vite Dev Server)
 
 ## 3. Recommended Agent Workflow
 
-When generating or extending an interactive educational lesson, follow these 12 steps:
+When generating or extending an interactive educational lesson from supplied education material, first use the [Lesson Generation Skill](.mosaic/skills/lesson-generation/SKILL.md). It requires a source map and a validated `lesson-plan.json` before implementation, so objectives, explanations, interactions, and assessment stay traceable to the provided material. This is a workflow for the connected coding agent; Mosaic does not run an LLM or generate lessons inside the app.
 
-1. **Understand the Educational Objective**: Identify what core mental model or concept the learner needs to discover (e.g., "How does learning rate affect gradient descent convergence?").
-2. **Deconstruct Conceptual Progression**: Plan the pedagogical sequence (Concept $\rightarrow$ Explanation $\rightarrow$ Interactive Experiment $\rightarrow$ Observation $\rightarrow$ Reasoning Question $\rightarrow$ Assessment/Quiz).
-3. **Identify Simulation State**: Define minimal numeric/structured dynamic variables that evolve over time (e.g., `{ x: 0, y: 0, vx: 10, vy: 20, t: 0 }`).
-4. **Identify User-Controllable Parameters**: Define variables that the learner can manipulate to test hypotheses (e.g., `gravity`, `launchAngle`, `initialVelocity`). Keep static datasets separate.
-5. **Formulate Declarative Transitions & Event Rules**: Define state update rules (via `@mosaic/simulation` transitions) and boundary conditions (event rules for thresholds or milestones).
-6. **Select Mosaic Visualization Components**: Choose semantic visual components (`ChartLine`, `Graph`, `Particle`, `Timeline`, `Heatmap`, etc.).
-7. **Select Mosaic Educational Components**: Choose pedagogical wrappers (`Explanation`, `Formula`, `CodeBlock`, `Question`, `Hint`, `Quiz`).
-8. **Connect Controls to Simulation**: Instantiate `SimulationEngine` and bridge it to React using `useSimulationController`. Bind playback controls (`Play`, `Pause`, `Step`, `Reset`) and parameter inputs (`ParameterControl`, `Slider`).
-9. **Add Intentional Animation**: Use `Particle`, `Animated`, or animated `Edge` to visualize physical movement or data transfer. Never animate purely for decoration.
-10. **Run the Lesson Locally**: Build and serve the app locally via `npm run dev:web`.
-11. **Verify Interactions & Determinism**: Verify that stepping, playing, pausing, parameter tuning, and resetting operate cleanly and deterministically.
-12. **Verify Mosaic Abstraction Compliance**: Ensure semantic `@mosaic/ui` components are used as the primary abstraction before considering low-level fallback libraries.
+Then follow these 12 steps:
+
+1. **Understand the Learner and Objective**: Assume zero prior knowledge unless specified. Identify the core mental model, prerequisite ideas, and likely misconception.
+2. **Start from a Concrete Problem**: Choose a relatable question, situation, or observation that makes the concept useful before introducing terminology.
+3. **Plan Progressive Reveals**: Introduce one idea at a time. For every stage, decide what the learner sees, what just happened, why it happened, and the next action.
+4. **Identify Simulation State**: Define minimal numeric/structured dynamic variables that evolve over time (e.g., `{ x: 0, y: 0, vx: 10, vy: 20, t: 0 }`).
+5. **Identify User-Controllable Parameters**: Define variables that the learner can manipulate to test hypotheses (e.g., `gravity`, `launchAngle`, `initialVelocity`). Keep static datasets separate.
+6. **Formulate Declarative Transitions & Event Rules**: Define state update rules (via `@mosaic/simulation` transitions) and boundary conditions (event rules for thresholds or milestones).
+7. **Select the Primary Visual**: Choose the clearest Mosaic semantic visual and make it the focus. Explain its labels and meaningful changes; use text or shapes as well as color.
+8. **Plan Prediction and Feedback**: Ask a focused prediction before an important outcome and provide immediate, supportive reasoning afterward.
+9. **Choose Educational Components**: Use only the components that serve the current stage. Prefer `PredictionCheck` for a prediction with immediate feedback and a gated reveal, and `LessonOutcome` for explained success or recovery states.
+10. **Connect One Clear Action**: Instantiate `SimulationEngine` and bridge it to React using `useSimulationController`. Put the relevant next action first; keep extra controls secondary until useful.
+11. **Conclude, Assess, and Verify**: Summarize the mental model, assess it with constructive feedback, and ensure visuals, explanations, transitions, labels, and quiz answers agree.
+12. **Run and Inspect**: Build and serve via `npm run dev:web`; verify interactions and determinism, and prefer semantic `@mosaic/ui` components over low-level imports.
 
 ---
 
@@ -96,6 +106,7 @@ Always prefer high-level `@mosaic/ui` semantic components over ad-hoc HTML eleme
 | **Inquiry / Thought prompt** | `<Question>` | Prompt encouraging the learner to predict behavior before interacting. |
 | **Progressive scaffolding** | `<Hint>` | Contextual tip or collapsible guidance. `<Hint title="Hint">...</Hint>` |
 | **Assessment / Checkpoint** | `<Quiz>` | Single-choice knowledge check with interactive option selection. `<Quiz question="..." options={[...]} />` |
+| **Prediction / Outcome** | `<PredictionCheck>`, `<LessonOutcome>` | Gives reasoning about a prediction and presents an explained success or recovery state with clear next actions. |
 
 ### Simulation & UI Controls
 
@@ -248,21 +259,9 @@ export function LessonSimulation() {
 
 ## 7. Educational Design Rules
 
-Every generated lesson should follow an intentional pedagogical arc:
+Design the lesson as a guided journey appropriate to the subject, not as a fixed component sequence. Give each stage one teaching objective. Assume zero prior knowledge unless specified, begin with a concrete problem, establish intuition before formal terms, and reveal one new idea at a time. Keep one visual focus and one clear next action. Explain meaningful visual changes and their causes in words. Ask predictions before important outcomes and respond with immediate, constructive feedback. Introduce advanced material progressively, keep developer/debug details optional, and end with a clear takeaway and an aligned knowledge check.
 
-```text
-1. Concept Intro        (Explanation: What problem are we exploring?)
-       ↓
-2. Core Principle       (Formula / Diagram: The governing rules)
-       ↓
-3. Interactive Stage    (Simulation Controls + Visualization: Experiment and observe)
-       ↓
-4. Reasoning Inquiry    (Question / Hint: Predict what happens when X changes)
-       ↓
-5. Knowledge Check      (Quiz: Assess understanding with targeted feedback)
-```
-
-Not every lesson requires every single educational component, but every lesson must provide clear conceptual context and allow active manipulation rather than passive reading.
+Preserve Mosaic's semantic-component approach, but prefer conceptual clarity over component count. Use animation to explain a meaningful change. Keep the simulation, labels, explanation, and quiz consistent. These principles apply across domains; choose the narrative and representation that fit each subject.
 
 ---
 
@@ -291,6 +290,7 @@ npm run dev:web
 For detailed guidelines on specific sub-domains, inspect the corresponding skill files in `.mosaic/skills/`:
 
 * [Lesson Design Skill](.mosaic/skills/lesson-design/SKILL.md) — How to plan learning objectives, cognitive scaffolding, and interaction models.
+* [Lesson Generation Skill](.mosaic/skills/lesson-generation/SKILL.md) — How to ground generated lessons in supplied education sources, validate objective coverage, and review learner paths.
 * [Simulation Engine Skill](.mosaic/skills/simulation/SKILL.md) — Full API reference for specs, expressions, transitions, events, and engine execution.
 * [Visualization Skill](.mosaic/skills/visualization/SKILL.md) — Detailed catalog and usage examples for all visual components.
 * [Animation Skill](.mosaic/skills/animation/SKILL.md) — Guidelines and APIs for purposeful motion and transitions.

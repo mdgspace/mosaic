@@ -21,6 +21,10 @@ Mosaic establishes a clear hierarchy for rendering visuals:
 * **Simulation-Driven Data**: Prefer simple serializable simulation-driven data. Use `ReactNode` only where the component API explicitly supports rich React content (such as labels or formatted equation nodes).
 * **Fallback Rule**: Do not import `@xyflow/react`, `recharts`, or `framer-motion` directly for standard lesson views. Use raw low-level libraries only when a specialized requirement (such as a dual-Y-axis chart, custom physics canvas, or non-standard graph layout) genuinely cannot be represented by Mosaic's built-in components.
 
+### Make the visual teach
+
+Assume a first-time learner. Keep one primary visual in focus and explain its labels and state changes in plain language nearby. A learner should be able to tell what they are looking at, what changed, why it changed, and what action comes next without inferring the lesson from color or motion alone. Pair color with text, shape, position, or another clear cue. Animate only when motion clarifies a meaningful change, and let learners control the pace around important explanations. Detailed charts, raw state, logs, and implementation views belong in secondary or optional areas unless they directly answer the current question.
+
 ---
 
 ## 2. Component Catalog & API Reference
@@ -39,10 +43,28 @@ Mosaic establishes a clear hierarchy for rendering visuals:
 
   <ChartLine data={history} dataKey="value" stroke="var(--color-accent)" />
   ```
+  For a plotted function, use `xDataKey`, domains, labels, and an optional `referencePoint` for the current simulation position. Keep chart rendering inside this component; lesson code should provide data and state rather than hand-drawing SVG paths.
+  ```tsx
+  <ChartLine
+    data={curvePoints}
+    dataKey="loss"
+    xDataKey="position"
+    xDomain={[-5, 5]}
+    yDomain={[0, 25]}
+    xLabel="position"
+    yLabel="loss"
+    showGrid
+    referencePoint={{ x: currentX, y: currentLoss }}
+  />
+  ```
   **Props**:
   * `data: readonly Record<string, number | string>[]`
   * `dataKey: string`
   * `stroke?: string` (Default: `"var(--color-accent)"`)
+  * `height?: number`, `className?: string`, `aria-label?: string`
+  * `xDataKey?: string`, `xDomain?: [number, number]`, `yDomain?: [number, number]`
+  * `xLabel?: string`, `yLabel?: string`, `showGrid?: boolean`
+  * `referencePoint?: { x: number, y: number, label?: string }`
 
 * **`<Chart>` (Fallback for Custom Recharts Composition)**: A responsive container for advanced chart layouts requiring multiple lines, axes, or custom tooltips not covered by `<ChartLine>`.
   ```tsx

@@ -185,21 +185,22 @@ function LessonAssessment() {
 
 ### Pattern A: Algorithmic Walkthrough (e.g. Sorting, Graph Traversal)
 ```text
-<Explanation title="...">        -> Define algorithm purpose and Big-O
-<CodeBlock language="ts">        -> Highlight the executable logic
-<Question>                       -> "Which element will be inspected next?"
-<SimulationStage>                -> Interactive step controls + <Graph> / <Flow>
-<Hint>                           -> Scaffolding during exploration
-<Quiz>                           -> Checkpoint on worst-case behavior
+Relatable task / opening          -> Make the problem useful before naming the algorithm
+<Explanation>                     -> Establish intuition and needed vocabulary
+<Question> + one clear action     -> Predict before a consequential step
+Primary visual                    -> Reveal a state change and explain its cause
+<Formula> / <CodeBlock>           -> Add after the behavior makes them useful
+<Quiz>                            -> Check transfer of the core idea
 ```
 
 ### Pattern B: Physical / Mathematical Discovery (e.g. Physics, ML Convergence)
 ```text
-<Explanation title="...">        -> Define physical system or optimization problem
-<Formula expression="...">       -> State governing equations
-<SimulationStage>                -> Sliders (<ParameterControl>) + Canvas (<Particle> / <ChartLine>)
-<StateInspector> + <EventLog>    -> Real-time telemetry
-<Quiz>                           -> Assessment of parameter sensitivity
+Concrete observation              -> Start with a visible or familiar phenomenon
+<Explanation>                     -> Explain only what is needed to explore it
+Primary visual + one action       -> Reveal a meaningful change at a readable pace
+<Question> + feedback             -> Ask what will happen and explain the result
+<Formula>                          -> Name the relationship after intuition develops
+<Quiz>                             -> Assess reasoning about the demonstrated effect
 ```
 
 ---
@@ -207,6 +208,16 @@ function LessonAssessment() {
 ## 4. Key Rules for Agents
 
 1. **Do Not Overcrowd**: Choose 2-4 educational components that directly support the objective. Do not force every component into every lesson.
-2. **Promote Prediction Before Play**: Place a `<Question>` before the simulation controls to engage active cognition.
+2. **Promote Prediction Before Outcomes**: Place a focused `<Question>` before the outcome it asks about, at the point when the learner has enough context to reason.
 3. **Immediate Feedback**: When learners answer a `<Quiz>`, provide targeted feedback that explains *why* an answer is correct or incorrect.
+
+## 5. Beginner-first sequencing
+
+Assume zero prior knowledge unless the prompt says otherwise. Start with a concrete, relatable problem or question, then establish the intuition before introducing terms, formulas, code, or controls. Explain prerequisite ideas in plain language before relying on them. Reveal one new idea at a time, using short explanations near the visual they explain.
+
+At each point, make it possible for the learner to tell what they are seeing, what changed, why it changed, and what to do next. Keep one primary visual and one clear next action in focus. Ask a prediction before meaningful outcomes; respond with immediate, constructive feedback and let the learner continue without penalty. Use labels, shapes, and text alongside color.
+
+Introduce educational components as they become useful, not all at once. A formula or code sample can wait until the learner has seen the behavior it explains. Keep state inspectors, event logs, and implementation details in a collapsed “explore” area unless the current learning objective needs them. Finish with a clear takeaway and a knowledge check that tests the objective, explains wrong answers helpfully, and points back to the relevant explanation.
+
+These are principles, not a fixed sequence of components. Choose a narrative and representation appropriate to the subject. Prioritize conceptual clarity over component count, and keep the explanation, visual labels, simulation behavior, and assessment consistent.
 
