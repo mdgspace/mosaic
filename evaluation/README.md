@@ -116,3 +116,20 @@ node evaluation/scripts/evaluate-lesson.mjs
 node evaluation/scripts/evaluate-lesson.mjs path/to/lesson.tsx
 ```
 
+## Running the evaluation tests
+
+Quick commands used in CI / locally to run the evaluation and schema tests:
+
+```bash
+# Run unit tests across the monorepo (runs all packages that expose tests)
+npm test --workspaces --if-present
+
+# Run TypeScript checks
+npm run check
+
+# Run the evaluation script directly (node 18+ recommended)
+node evaluation/scripts/evaluate-lesson.mjs
+```
+
+If you encounter ESM-related errors when running tests, ensure your Node version is up-to-date (Node 18+ recommended) and that `npm install` has been run at the repository root.
+
