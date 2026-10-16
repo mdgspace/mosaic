@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import type { CSSProperties, ReactNode } from "react";
-import { Line, LineChart, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import { CartesianGrid, Line, LineChart, ReferenceDot, ResponsiveContainer, Tooltip as RechartsTooltip, XAxis, YAxis } from "recharts";
 import { Background as FlowBackground, Controls, Handle, Position, ReactFlow, useEdgesState, useNodesState, type Edge as FlowEdge, type Node as FlowNode, type NodeChange } from "@xyflow/react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -36,6 +36,17 @@ export interface ChartLineProps {
   data: readonly Record<string, number | string>[];
   dataKey: string;
   stroke?: string;
+  height?: number;
+  className?: string;
+  "aria-label"?: string;
+  xDataKey?: string;
+  xDomain?: [number, number];
+  yDomain?: [number, number];
+  xLabel?: string;
+  yLabel?: string;
+  showGrid?: boolean;
+  showTooltip?: boolean;
+  referencePoint?: { x: number | string; y: number; label?: string };
 }
 
 /** A responsive chart surface for Recharts content. */
@@ -48,12 +59,16 @@ export function Chart({ children, height = 280, className, "aria-label": ariaLab
 }
 
 /** A semantic line chart that keeps Recharts implementation details internal. */
-export function ChartLine({ data, dataKey, stroke = "var(--color-accent)" }: ChartLineProps) {
+export function ChartLine({ data, dataKey, stroke = "var(--color-accent)", height = 180, className, "aria-label": ariaLabel, xDataKey, xDomain, yDomain, xLabel, yLabel, showGrid = false, showTooltip = true, referencePoint }: ChartLineProps) {
   return (
-    <Chart height={180}>
-      <LineChart data={data}>
-        <Line dataKey={dataKey} type="monotone" stroke={stroke} />
-        <RechartsTooltip />
+    <Chart height={height} className={className} aria-label={ariaLabel}>
+      <LineChart data={data} margin={{ top: 12, right: 16, bottom: xLabel ? 10 : 4, left: yLabel ? 8 : 0 }}>
+        {showGrid && <CartesianGrid stroke="var(--chart-grid, #d5ded9)" strokeDasharray="4 5" />}
+        {xDataKey && <XAxis dataKey={xDataKey} type={xDomain ? "number" : "category"} domain={xDomain} tick={{ fill: "var(--chart-axis, currentColor)" }} label={xLabel ? { value: xLabel, position: "insideBottom", offset: -2 } : undefined} />}
+        {(yLabel || yDomain) && <YAxis type="number" domain={yDomain} width={36} tick={{ fill: "var(--chart-axis, currentColor)" }} label={yLabel ? { value: yLabel, angle: -90, position: "insideLeft" } : undefined} />}
+        <Line dataKey={dataKey} type="monotone" stroke={stroke} dot={false} activeDot={false} isAnimationActive animationDuration={650} animationEasing="ease-out" />
+        {referencePoint && <ReferenceDot x={referencePoint.x} y={referencePoint.y} r={10} fill="var(--chart-marker, #ffc75e)" stroke="var(--chart-marker-outline, #173b49)" strokeWidth={4}><title>{referencePoint.label ?? `x=${referencePoint.x}, y=${referencePoint.y}`}</title></ReferenceDot>}
+        {showTooltip && <RechartsTooltip />}
       </LineChart>
     </Chart>
   );

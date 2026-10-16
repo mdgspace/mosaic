@@ -16,6 +16,18 @@
 .mosaic-timeline .is-active .mosaic-timeline-marker, .mosaic-flow .is-active { background: var(--color-background-blue); }
 .mosaic-timeline p { margin: var(--spacing-1) 0 0; color: var(--color-text-secondary); }
 .mosaic-diagram, .mosaic-explanation, .mosaic-question { display: grid; gap: var(--spacing-3); }
+.mosaic-prediction-check { display: grid; gap: var(--spacing-3); }
+.mosaic-prediction-choices { display: flex; flex-wrap: wrap; gap: var(--spacing-2); margin-block: var(--spacing-3); }
+.mosaic-prediction-choices button[aria-pressed="true"] { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+.mosaic-prediction-feedback { padding: var(--spacing-3) var(--spacing-4); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-element); }
+.mosaic-prediction-feedback p { margin: var(--spacing-1) 0 0; }
+.mosaic-prediction-feedback.is-correct { color: var(--color-text-primary); background: var(--color-background-success, #e4f3e8); }
+.mosaic-prediction-feedback.is-incorrect { color: var(--color-text-primary); background: var(--color-background-warning, #fff1d5); }
+.mosaic-lesson-outcome { display: grid; gap: var(--spacing-3); padding: var(--spacing-4); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-element); }
+.mosaic-lesson-outcome h2, .mosaic-lesson-outcome p { margin: 0; }
+.mosaic-lesson-outcome-actions { display: flex; flex-wrap: wrap; gap: var(--spacing-2); }
+.mosaic-lesson-outcome.is-success { background: var(--color-background-success, #e4f3e8); }
+.mosaic-lesson-outcome.is-caution { background: var(--color-background-warning, #fff1d5); }
 .mosaic-diagram h2, .mosaic-explanation h2, .mosaic-question h2, .mosaic-state-inspector h2 { margin: 0; font-size: var(--text-heading-3-size); }
 .mosaic-particle { position: absolute; display: block; transform: translate(-50%, -50%); border-radius: var(--radius-full); }
 .mosaic-flow { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); }
